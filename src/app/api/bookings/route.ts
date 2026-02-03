@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { bookingSchema } from "@/lib/validations";
+import { formatGrade } from "@/lib/utils";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -63,7 +64,7 @@ export async function POST(request: NextRequest) {
 
   if (!slot || slot.calendar.code !== calendarCode || !slot.calendar.isActive) {
     return NextResponse.json(
-      { error: "Invalid calendar or slot." },
+      { error: "לוח או משבצת לא תקינים." },
       { status: 404 }
     );
   }
@@ -73,7 +74,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error:
-          "The selected date does not fall on the correct day of the week for this slot.",
+          "התאריך שנבחר אינו חל ביום הנכון בשבוע למשבצת זו.",
       },
       { status: 400 }
     );
@@ -82,7 +83,7 @@ export async function POST(request: NextRequest) {
   // 3. Verify the student's grade is allowed
   if (!slot.calendar.allowedGrades.includes(studentGrade)) {
     return NextResponse.json(
-      { error: `Grade ${studentGrade} is not allowed for this calendar.` },
+      { error: `${formatGrade(studentGrade)} אינה מורשית בלוח זה.` },
       { status: 400 }
     );
   }
@@ -92,7 +93,7 @@ export async function POST(request: NextRequest) {
   today.setUTCHours(0, 0, 0, 0);
   if (bookingDate < today) {
     return NextResponse.json(
-      { error: "Cannot book a date in the past." },
+      { error: "לא ניתן להזמין תאריך שעבר." },
       { status: 400 }
     );
   }
@@ -103,7 +104,7 @@ export async function POST(request: NextRequest) {
     (bookingDate.getTime() - now.getTime()) / (1000 * 60 * 60);
   if (hoursUntilBooking < 24) {
     return NextResponse.json(
-      { error: "Bookings must be made at least 24 hours in advance." },
+      { error: "יש להזמין לפחות 24 שעות מראש." },
       { status: 400 }
     );
   }
@@ -123,7 +124,7 @@ export async function POST(request: NextRequest) {
         const existingGrade = existingBookings[0].studentGrade;
         if (existingGrade !== studentGrade) {
           throw new Error(
-            `GRADE_EXCLUSIVE:This slot is reserved for grade ${existingGrade} students on this date.`
+            `GRADE_EXCLUSIVE:משבצת זו שמורה לתלמידי ${formatGrade(existingGrade)} בתאריך זה.`
           );
         }
       }
@@ -163,13 +164,13 @@ export async function POST(request: NextRequest) {
     }
     if (message === "SLOT_FULL") {
       return NextResponse.json(
-        { error: "This slot is already full." },
+        { error: "משבצת זו כבר מלאה." },
         { status: 409 }
       );
     }
     if (message === "DUPLICATE_BOOKING") {
       return NextResponse.json(
-        { error: "You have already booked this slot." },
+        { error: "כבר הזמנת משבצת זו." },
         { status: 409 }
       );
     }

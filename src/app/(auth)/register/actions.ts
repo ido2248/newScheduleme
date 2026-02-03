@@ -12,7 +12,7 @@ export async function registerUser(formData: FormData) {
   });
 
   if (!parsed.success) {
-    return { error: "Invalid input. Please check your details." };
+    return { error: "קלט לא תקין. בדוק את הפרטים." };
   }
 
   const existing = await prisma.user.findUnique({
@@ -20,7 +20,7 @@ export async function registerUser(formData: FormData) {
   });
 
   if (existing) {
-    return { error: "An account with this email already exists." };
+    return { error: "חשבון עם אימייל זה כבר קיים." };
   }
 
   const passwordHash = await bcrypt.hash(parsed.data.password, 10);

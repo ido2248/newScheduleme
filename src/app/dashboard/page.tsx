@@ -26,24 +26,24 @@ export default async function DashboardPage() {
     <div>
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">My Calendars</h1>
+          <h1 className="text-2xl font-bold">הלוחות שלי</h1>
           <p className="text-sm text-muted">
-            Manage your scheduling calendars
+            נהל את לוחות הזמנים שלך
           </p>
         </div>
         <Link href="/dashboard/calendars/new">
-          <Button>Create New Calendar</Button>
+          <Button>צור לוח חדש</Button>
         </Link>
       </div>
 
       {calendars.length === 0 ? (
         <div className="rounded-xl border border-dashed border-border p-12 text-center">
-          <h3 className="text-lg font-medium">No calendars yet</h3>
+          <h3 className="text-lg font-medium">אין לוחות עדיין</h3>
           <p className="mt-1 text-sm text-muted">
-            Create your first calendar to start scheduling lessons.
+            צור את הלוח הראשון שלך כדי להתחיל לתזמן שיעורים.
           </p>
           <Link href="/dashboard/calendars/new" className="mt-4 inline-block">
-            <Button>Create Calendar</Button>
+            <Button>צור לוח</Button>
           </Link>
         </div>
       ) : (

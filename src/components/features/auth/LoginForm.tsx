@@ -26,13 +26,13 @@ export default function LoginForm() {
       });
 
       if (result?.error) {
-        setError("Invalid email or password.");
+        setError("אימייל או סיסמה שגויים.");
       } else {
         router.push("/dashboard");
         router.refresh();
       }
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError("משהו השתבש. נסה שוב.");
     } finally {
       setLoading(false);
     }
@@ -46,7 +46,7 @@ export default function LoginForm() {
         </div>
       )}
       <Input
-        label="Email"
+        label="אימייל"
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
@@ -54,16 +54,16 @@ export default function LoginForm() {
         required
       />
       <Input
-        label="Password"
+        label="סיסמה"
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        placeholder="Enter your password"
+        placeholder="הזן סיסמה"
         required
         minLength={6}
       />
       <Button type="submit" disabled={loading} className="w-full">
-        {loading ? "Signing in..." : "Sign In"}
+        {loading ? "מתחבר..." : "התחברות"}
       </Button>
     </form>
   );

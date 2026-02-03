@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Button from "@/components/ui/Button";
 import DayCell from "./DayCell";
 import BookingForm from "./BookingForm";
-import { getDaysInMonth, getFirstDayOfMonth, DAY_NAMES } from "@/lib/utils";
+import { getDaysInMonth, getFirstDayOfMonth, DAY_NAMES, DAY_NAMES_SHORT, MONTH_NAMES } from "@/lib/utils";
 
 interface AvailabilitySlot {
   id: string;
@@ -34,20 +34,6 @@ interface MonthlyCalendarViewProps {
   calendar: CalendarData;
 }
 
-const MONTH_NAMES = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
 
 export default function MonthlyCalendarView({
   calendar,
@@ -190,18 +176,18 @@ export default function MonthlyCalendarView({
 
       {loading && (
         <div className="mb-2 text-center text-sm text-muted">
-          Loading bookings...
+          טוען הזמנות...
         </div>
       )}
 
       {/* Day headers */}
       <div className="grid grid-cols-7 border-b border-border">
-        {DAY_NAMES.map((day) => (
+        {DAY_NAMES_SHORT.map((day, index) => (
           <div
-            key={day}
+            key={index}
             className="border-x border-border p-2 text-center text-xs font-medium text-muted"
           >
-            {day.slice(0, 3)}
+            {day}
           </div>
         ))}
       </div>
@@ -232,15 +218,15 @@ export default function MonthlyCalendarView({
       <div className="mt-4 flex flex-wrap gap-4 text-xs text-muted">
         <div className="flex items-center gap-1">
           <div className="h-3 w-3 rounded bg-green-50 border border-green-200" />
-          <span>Available</span>
+          <span>פנוי</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="h-3 w-3 rounded bg-amber-50 border border-amber-200" />
-          <span>Partially booked</span>
+          <span>הוזמן חלקית</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="h-3 w-3 rounded bg-red-50 border border-red-200" />
-          <span>Full</span>
+          <span>מלא</span>
         </div>
       </div>
 

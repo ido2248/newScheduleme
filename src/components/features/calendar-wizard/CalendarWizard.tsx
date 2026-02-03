@@ -17,7 +17,7 @@ interface WizardState {
   maxStudentsPerSlot: number;
 }
 
-const STEP_LABELS = ["Grades", "Days", "Hours", "Review"];
+const STEP_LABELS = ["שכבות", "ימים", "שעות", "סיכום"];
 
 export default function CalendarWizard() {
   const router = useRouter();
@@ -88,14 +88,14 @@ export default function CalendarWizard() {
 
       if (!res.ok) {
         const data = await res.json();
-        setError(data.error || "Failed to create calendar.");
+        setError(data.error || "יצירת הלוח נכשלה.");
         return;
       }
 
       router.push("/dashboard");
       router.refresh();
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError("משהו השתבש. נסה שוב.");
     } finally {
       setLoading(false);
     }
@@ -170,16 +170,16 @@ export default function CalendarWizard() {
           onClick={handleBack}
           disabled={step === 1}
         >
-          Back
+          הקודם
         </Button>
 
         {step < 4 ? (
           <Button onClick={handleNext} disabled={!canProceed()}>
-            Next
+            הבא
           </Button>
         ) : (
           <Button onClick={handleSubmit} disabled={loading || !canProceed()}>
-            {loading ? "Creating..." : "Create Calendar"}
+            {loading ? "יוצר..." : "צור לוח"}
           </Button>
         )}
       </div>

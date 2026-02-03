@@ -5,7 +5,7 @@ import Link from "next/link";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
-import { DAY_NAMES } from "@/lib/utils";
+import { DAY_NAMES, formatGrade, formatHour } from "@/lib/utils";
 import DeleteCalendarButton from "@/components/features/dashboard/DeleteCalendarButton";
 import DeleteBookingButton from "@/components/features/dashboard/DeleteBookingButton";
 
@@ -54,11 +54,11 @@ export default async function CalendarDetailPage({
             href="/dashboard"
             className="text-sm text-muted hover:text-foreground"
           >
-            &larr; Back to calendars
+            &rarr; חזרה ללוחות
           </Link>
           <h1 className="mt-1 text-2xl font-bold">{calendar.name}</h1>
           <p className="text-sm text-muted">
-            Code: <span className="font-mono font-medium">{calendar.code}</span>
+            קוד: <span className="font-mono font-medium">{calendar.code}</span>
           </p>
         </div>
         <div className="flex gap-2">
@@ -68,22 +68,22 @@ export default async function CalendarDetailPage({
 
       <div className="mb-6 flex flex-wrap gap-2">
         <Badge variant={calendar.isActive ? "success" : "default"}>
-          {calendar.isActive ? "Active" : "Inactive"}
+          {calendar.isActive ? "פעיל" : "לא פעיל"}
         </Badge>
         {calendar.allowedGrades.map((grade) => (
           <Badge key={grade} variant="info">
-            Grade {grade}
+            {formatGrade(grade)}
           </Badge>
         ))}
         <Badge variant="default">
-          Max {calendar.maxStudentsPerSlot} per slot
+          מקסימום {calendar.maxStudentsPerSlot} למשבצת
         </Badge>
       </div>
 
-      <h2 className="mb-4 text-lg font-semibold">Weekly Schedule</h2>
+      <h2 className="mb-4 text-lg font-semibold">לוח שבועי</h2>
 
       {Object.keys(slotsByDay).length === 0 ? (
-        <p className="text-sm text-muted">No availability slots configured.</p>
+        <p className="text-sm text-muted">אין משבצות זמינות מוגדרות.</p>
       ) : (
         <div className="grid gap-4">
           {Object.entries(slotsByDay)
@@ -101,11 +101,11 @@ export default async function CalendarDetailPage({
                     >
                       <div>
                         <span className="text-sm font-medium">
-                          Hour {slot.periodNumber}
+                          {formatHour(slot.periodNumber)}
                         </span>
-                        <span className="ml-2 text-xs text-muted">
+                        <span className="me-2 text-xs text-muted">
                           ({slot.bookings.length}/{calendar.maxStudentsPerSlot}{" "}
-                          booked)
+                          הוזמנו)
                         </span>
                       </div>
                       {slot.bookings.length > 0 && (
@@ -116,8 +116,8 @@ export default async function CalendarDetailPage({
                               className="flex items-center gap-1"
                             >
                               <Badge variant="warning">
-                                {booking.studentName} (Grade {booking.studentGrade}) -{" "}
-                                {new Date(booking.date).toLocaleDateString()}
+                                {booking.studentName} ({formatGrade(booking.studentGrade)}) -{" "}
+                                {new Date(booking.date).toLocaleDateString("he-IL")}
                               </Badge>
                               <DeleteBookingButton bookingId={booking.id} />
                             </div>

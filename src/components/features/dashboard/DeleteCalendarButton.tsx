@@ -13,7 +13,7 @@ export default function DeleteCalendarButton({
   const [loading, setLoading] = useState(false);
 
   async function handleDelete() {
-    if (!confirm("Are you sure you want to delete this calendar? All bookings will be lost.")) {
+    if (!confirm("האם אתה בטוח שברצונך למחוק לוח זה? כל ההזמנות יאבדו.")) {
       return;
     }
 
@@ -39,7 +39,7 @@ export default function DeleteCalendarButton({
       onClick={handleDelete}
       disabled={loading}
     >
-      {loading ? "Deleting..." : "Delete Calendar"}
+      {loading ? "מוחק..." : "מחק לוח"}
     </Button>
   );
 }

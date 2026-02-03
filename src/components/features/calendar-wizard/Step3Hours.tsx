@@ -1,6 +1,6 @@
 import Checkbox from "@/components/ui/Checkbox";
 import Input from "@/components/ui/Input";
-import { DAY_NAMES, MAX_PERIODS } from "@/lib/utils";
+import { DAY_NAMES, MAX_PERIODS, formatHour } from "@/lib/utils";
 
 interface Step3Props {
   selectedDays: number[];
@@ -31,9 +31,9 @@ export default function Step3Hours({
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="mb-2 text-lg font-medium">Available Hours per Day</h3>
+        <h3 className="mb-2 text-lg font-medium">שעות זמינות ליום</h3>
         <p className="mb-4 text-sm text-muted">
-          For each day, select which school hours/periods you are available.
+          לכל יום, בחר באילו שעות/תקופות אתה זמין.
         </p>
       </div>
 
@@ -44,7 +44,7 @@ export default function Step3Hours({
             {hours.map((hour) => (
               <Checkbox
                 key={hour}
-                label={`Hour ${hour}`}
+                label={formatHour(hour)}
                 checked={(hoursByDay[day] || []).includes(hour)}
                 onChange={() => toggleHour(day, hour)}
               />
@@ -54,9 +54,9 @@ export default function Step3Hours({
       ))}
 
       <div className="max-w-xs">
-        <h3 className="mb-2 text-lg font-medium">Max Students per Slot</h3>
+        <h3 className="mb-2 text-lg font-medium">מקסימום תלמידים למשבצת</h3>
         <p className="mb-2 text-sm text-muted">
-          How many students can book the same hour on the same day?
+          כמה תלמידים יכולים להזמין אותה שעה באותו יום?
         </p>
         <Input
           type="number"

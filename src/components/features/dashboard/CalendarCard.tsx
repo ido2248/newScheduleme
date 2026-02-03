@@ -5,7 +5,7 @@ import Link from "next/link";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
-import { DAY_NAMES } from "@/lib/utils";
+import { DAY_NAMES, formatGrade } from "@/lib/utils";
 
 interface CalendarCardProps {
   calendar: {
@@ -41,40 +41,39 @@ export default function CalendarCard({ calendar }: CalendarCardProps) {
           <button
             onClick={copyCode}
             className="mt-1 flex items-center gap-1 text-sm text-muted hover:text-foreground"
-            title="Click to copy code"
+            title="לחץ להעתקת הקוד"
           >
             <span className="font-mono">{calendar.code}</span>
             <span className="text-xs">
-              {copied ? "(copied!)" : "(click to copy)"}
+              {copied ? "(הועתק!)" : "(לחץ להעתקה)"}
             </span>
           </button>
         </div>
         <Badge variant={calendar.isActive ? "success" : "default"}>
-          {calendar.isActive ? "Active" : "Inactive"}
+          {calendar.isActive ? "פעיל" : "לא פעיל"}
         </Badge>
       </div>
 
       <div className="flex flex-wrap gap-1">
         {calendar.allowedGrades.map((grade) => (
           <Badge key={grade} variant="info">
-            Grade {grade}
+            {formatGrade(grade)}
           </Badge>
         ))}
       </div>
 
       <p className="text-sm text-muted">
-        {calendar.availabilitySlots.length} slots across{" "}
-        {uniqueDays.map((d) => DAY_NAMES[d]).join(", ")}
+        {calendar.availabilitySlots.length} משבצות ב{uniqueDays.map((d) => DAY_NAMES[d]).join(", ")}
       </p>
 
       <p className="text-sm text-muted">
-        Max {calendar.maxStudentsPerSlot} student{calendar.maxStudentsPerSlot > 1 ? "s" : ""} per slot
+        מקסימום {calendar.maxStudentsPerSlot} {calendar.maxStudentsPerSlot > 1 ? "תלמידים" : "תלמיד"} למשבצת
       </p>
 
       <div className="mt-auto flex gap-2 pt-2">
         <Link href={`/dashboard/calendars/${calendar.id}`} className="flex-1">
           <Button variant="secondary" size="sm" className="w-full">
-            View Details
+            צפה בפרטים
           </Button>
         </Link>
       </div>

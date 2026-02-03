@@ -12,7 +12,7 @@ export default function DeleteBookingButton({
   const [loading, setLoading] = useState(false);
 
   async function handleDelete() {
-    if (!confirm("Cancel this booking?")) return;
+    if (!confirm("בטל הזמנה זו?")) return;
 
     setLoading(true);
     try {
@@ -32,8 +32,8 @@ export default function DeleteBookingButton({
     <button
       onClick={handleDelete}
       disabled={loading}
-      className="ml-1 rounded p-0.5 text-xs text-muted hover:text-danger disabled:opacity-50"
-      title="Cancel booking"
+      className="me-1 rounded p-0.5 text-xs text-muted hover:text-danger disabled:opacity-50"
+      title="ביטול הזמנה"
     >
       ✕
     </button>

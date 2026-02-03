@@ -4,6 +4,7 @@ import Link from "next/link";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import MonthlyCalendarView from "@/components/features/student/MonthlyCalendarView";
+import { formatGrade } from "@/lib/utils";
 
 export default async function StudentCalendarPage({
   params,
@@ -48,7 +49,7 @@ export default async function StudentCalendarPage({
       <header className="border-b border-border bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <Link href="/" className="text-lg font-bold">
-            ScheduleMe
+            תזמון שיעורים
           </Link>
         </div>
       </header>
@@ -57,16 +58,16 @@ export default async function StudentCalendarPage({
         <div className="mb-6">
           <h1 className="text-2xl font-bold">{calendar.name}</h1>
           <p className="text-sm text-muted">
-            Teacher: {calendar.teacher.name || "Unknown"}
+            מורה: {calendar.teacher.name || "לא ידוע"}
           </p>
           <div className="mt-2 flex flex-wrap gap-1">
             {calendar.allowedGrades.map((grade) => (
               <Badge key={grade} variant="info">
-                Grade {grade}
+                {formatGrade(grade)}
               </Badge>
             ))}
             <Badge variant="default">
-              Max {calendar.maxStudentsPerSlot} per slot
+              מקסימום {calendar.maxStudentsPerSlot} למשבצת
             </Badge>
           </div>
         </div>

@@ -5,7 +5,7 @@ import Modal from "@/components/ui/Modal";
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
-import { DAY_NAMES } from "@/lib/utils";
+import { DAY_NAMES, formatHour, formatGrade } from "@/lib/utils";
 
 interface BookingFormProps {
   isOpen: boolean;
@@ -60,7 +60,7 @@ export default function BookingForm({
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Failed to book slot.");
+        setError(data.error || "ההזמנה נכשלה.");
         return;
       }
 
@@ -69,28 +69,28 @@ export default function BookingForm({
       onSuccess();
       onClose();
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError("משהו השתבש. נסה שוב.");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Book a Lesson">
+    <Modal isOpen={isOpen} onClose={onClose} title="הזמן שיעור">
       <div className="mb-4 rounded-lg bg-gray-50 p-3 text-sm">
         <p>
-          <span className="text-muted">Teacher:</span>{" "}
+          <span className="text-muted">מורה:</span>{" "}
           <span className="font-medium">{teacherName || calendarName}</span>
         </p>
         <p>
-          <span className="text-muted">Date:</span>{" "}
+          <span className="text-muted">תאריך:</span>{" "}
           <span className="font-medium">
             {DAY_NAMES[date.getDay()]}, {dateStr}
           </span>
         </p>
         <p>
-          <span className="text-muted">Period:</span>{" "}
-          <span className="font-medium">Hour {periodNumber}</span>
+          <span className="text-muted">שעה:</span>{" "}
+          <span className="font-medium">{formatHour(periodNumber)}</span>
         </p>
       </div>
 
@@ -102,31 +102,31 @@ export default function BookingForm({
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input
-          label="Full Name"
+          label="שם מלא"
           value={studentName}
           onChange={(e) => setStudentName(e.target.value)}
-          placeholder="Your full name"
+          placeholder="השם המלא שלך"
           required
         />
 
         <Select
-          label="Grade"
+          label="שכבה"
           value={studentGrade}
           onChange={(e) => setStudentGrade(e.target.value)}
-          placeholder="Select your grade"
+          placeholder="בחר שכבה"
           options={allowedGrades.map((g) => ({
             value: g,
-            label: `Grade ${g}`,
+            label: formatGrade(g),
           }))}
           required
         />
 
         <div className="flex justify-end gap-2">
           <Button variant="secondary" type="button" onClick={onClose}>
-            Cancel
+            ביטול
           </Button>
           <Button type="submit" disabled={loading}>
-            {loading ? "Booking..." : "Confirm Booking"}
+            {loading ? "מזמין..." : "אשר הזמנה"}
           </Button>
         </div>
       </form>

@@ -1,3 +1,5 @@
+import { formatHour, formatGradeShort } from "@/lib/utils";
+
 interface SlotBadgeProps {
   periodNumber: number;
   bookings: {
@@ -32,7 +34,7 @@ export default function SlotBadge({
       onClick={isBookable && !isFull ? onClick : undefined}
     >
       <div className="font-medium">
-        Hour {periodNumber}{" "}
+        {formatHour(periodNumber)}{" "}
         <span className="font-normal">
           ({bookings.length}/{maxStudents})
         </span>
@@ -41,14 +43,14 @@ export default function SlotBadge({
         <div className="mt-0.5 space-y-0.5">
           {bookings.map((b) => (
             <div key={b.id} className="truncate">
-              {b.studentName} (G{b.studentGrade})
+              {b.studentName} ({formatGradeShort(b.studentGrade)})
             </div>
           ))}
         </div>
       )}
       {isBookable && !isFull && (
         <div className="mt-0.5 text-[10px] italic text-green-600">
-          Click to book
+          לחץ להזמנה
         </div>
       )}
     </div>

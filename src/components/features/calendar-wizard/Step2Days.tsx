@@ -17,9 +17,9 @@ export default function Step2Days({ selectedDays, onDaysChange }: Step2Props) {
 
   return (
     <div>
-      <h3 className="mb-2 text-lg font-medium">Available Days</h3>
+      <h3 className="mb-2 text-lg font-medium">ימים זמינים</h3>
       <p className="mb-4 text-sm text-muted">
-        Select which days of the week you are available for private lessons.
+        בחר באילו ימים בשבוע אתה זמין לשיעורים פרטיים.
       </p>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {DAY_NAMES.map((dayName, index) => (

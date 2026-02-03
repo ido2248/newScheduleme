@@ -1,5 +1,5 @@
 import Badge from "@/components/ui/Badge";
-import { DAY_NAMES } from "@/lib/utils";
+import { DAY_NAMES, formatGrade, formatHour } from "@/lib/utils";
 
 interface Step4Props {
   name: string;
@@ -23,34 +23,34 @@ export default function Step4Review({
 
   return (
     <div className="space-y-6">
-      <h3 className="text-lg font-medium">Review Your Calendar</h3>
+      <h3 className="text-lg font-medium">סקור את הלוח שלך</h3>
 
       <div className="rounded-lg border border-border p-4">
         <div className="space-y-4">
           <div>
-            <span className="text-sm text-muted">Calendar Name</span>
+            <span className="text-sm text-muted">שם הלוח</span>
             <p className="font-medium">{name}</p>
           </div>
 
           <div>
-            <span className="text-sm text-muted">Allowed Grades</span>
+            <span className="text-sm text-muted">שכבות מורשות</span>
             <div className="mt-1 flex flex-wrap gap-1">
               {allowedGrades.map((grade) => (
                 <Badge key={grade} variant="info">
-                  Grade {grade}
+                  {formatGrade(grade)}
                 </Badge>
               ))}
             </div>
           </div>
 
           <div>
-            <span className="text-sm text-muted">Max Students per Slot</span>
+            <span className="text-sm text-muted">מקסימום תלמידים למשבצת</span>
             <p className="font-medium">{maxStudentsPerSlot}</p>
           </div>
 
           <div>
             <span className="text-sm text-muted">
-              Schedule ({totalSlots} total slots)
+              לוח זמנים ({totalSlots} משבצות בסך הכל)
             </span>
             <div className="mt-2 space-y-2">
               {selectedDays.map((day) => (
@@ -60,7 +60,7 @@ export default function Step4Review({
                   </span>{" "}
                   <span className="text-sm text-muted">
                     {(hoursByDay[day] || [])
-                      .map((h) => `Hour ${h}`)
+                      .map((h) => formatHour(h))
                       .join(", ")}
                   </span>
                 </div>

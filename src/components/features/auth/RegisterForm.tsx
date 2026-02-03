@@ -21,7 +21,7 @@ export default function RegisterForm() {
     const confirmPassword = formData.get("confirmPassword") as string;
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError("הסיסמאות אינן תואמות.");
       setLoading(false);
       return;
     }
@@ -35,7 +35,7 @@ export default function RegisterForm() {
         router.push("/login?registered=true");
       }
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError("משהו השתבש. נסה שוב.");
     } finally {
       setLoading(false);
     }
@@ -49,37 +49,37 @@ export default function RegisterForm() {
         </div>
       )}
       <Input
-        label="Full Name"
+        label="שם מלא"
         name="name"
         type="text"
-        placeholder="Your full name"
+        placeholder="השם המלא שלך"
         required
       />
       <Input
-        label="Email"
+        label="אימייל"
         name="email"
         type="email"
         placeholder="teacher@school.com"
         required
       />
       <Input
-        label="Password"
+        label="סיסמה"
         name="password"
         type="password"
-        placeholder="At least 6 characters"
+        placeholder="לפחות 6 תווים"
         required
         minLength={6}
       />
       <Input
-        label="Confirm Password"
+        label="אימות סיסמה"
         name="confirmPassword"
         type="password"
-        placeholder="Repeat your password"
+        placeholder="הזן סיסמה שוב"
         required
         minLength={6}
       />
       <Button type="submit" disabled={loading} className="w-full">
-        {loading ? "Creating account..." : "Create Account"}
+        {loading ? "יוצר חשבון..." : "יצירת חשבון"}
       </Button>
     </form>
   );

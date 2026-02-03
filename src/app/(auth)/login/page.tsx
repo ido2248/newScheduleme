@@ -11,21 +11,21 @@ export default function LoginPage({
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
       <Card className="w-full max-w-md">
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold">Teacher Sign In</h1>
+          <h1 className="text-2xl font-bold">התחברות מורה</h1>
           <p className="mt-1 text-sm text-muted">
-            Sign in to manage your calendars
+            התחבר לניהול הלוחות שלך
           </p>
         </div>
         <LoginForm />
         <p className="mt-4 text-center text-sm text-muted">
-          Don&apos;t have an account?{" "}
+          אין לך חשבון?{" "}
           <Link href="/register" className="font-medium text-primary hover:underline">
-            Create one
+            צור חשבון
           </Link>
         </p>
         <p className="mt-2 text-center text-sm text-muted">
           <Link href="/" className="font-medium text-primary hover:underline">
-            Back to home
+            חזרה לדף הבית
           </Link>
         </p>
       </Card>

@@ -10,11 +10,11 @@ export default function NewCalendarPage() {
           href="/dashboard"
           className="text-sm text-muted hover:text-foreground"
         >
-          &larr; Back to calendars
+          &rarr; חזרה ללוחות
         </Link>
-        <h1 className="mt-1 text-2xl font-bold">Create New Calendar</h1>
+        <h1 className="mt-1 text-2xl font-bold">צור לוח חדש</h1>
         <p className="text-sm text-muted">
-          Set up your availability for private lessons.
+          הגדר את הזמינות שלך לשיעורים פרטיים.
         </p>
       </div>
 

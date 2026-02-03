@@ -22,11 +22,11 @@ export default function CodeInput() {
       <Input
         value={code}
         onChange={(e) => setCode(e.target.value)}
-        placeholder="Enter calendar code"
+        placeholder="הזן קוד לוח"
         className="flex-1"
         required
       />
-      <Button type="submit">View Calendar</Button>
+      <Button type="submit">צפה בלוח</Button>
     </form>
   );
 }

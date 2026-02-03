@@ -13,10 +13,9 @@ export default async function HomePage() {
         {/* Student Section */}
         <Card className="flex flex-col justify-center">
           <div className="mb-4">
-            <h2 className="text-xl font-bold">Student</h2>
+            <h2 className="text-xl font-bold">תלמיד</h2>
             <p className="mt-1 text-sm text-muted">
-              Enter your teacher&apos;s calendar code to view available lessons
-              and book a slot.
+              הזן את קוד הלוח של המורה שלך כדי לצפות בשיעורים הזמינים ולהזמין מקום.
             </p>
           </div>
           <CodeInput />
@@ -25,23 +24,23 @@ export default async function HomePage() {
         {/* Teacher Section */}
         <Card className="flex flex-col justify-center">
           <div className="mb-4">
-            <h2 className="text-xl font-bold">Teacher</h2>
+            <h2 className="text-xl font-bold">מורה</h2>
             <p className="mt-1 text-sm text-muted">
-              Create and manage your scheduling calendars for private lessons.
+              צור ונהל לוחות זמנים לשיעורים פרטיים.
             </p>
           </div>
           {session ? (
             <Link href="/dashboard">
-              <Button className="w-full">Go to Dashboard</Button>
+              <Button className="w-full">למרכז הבקרה</Button>
             </Link>
           ) : (
             <div className="flex flex-col gap-2">
               <Link href="/login">
-                <Button className="w-full">Sign In</Button>
+                <Button className="w-full">התחברות</Button>
               </Link>
               <Link href="/register">
                 <Button variant="secondary" className="w-full">
-                  Create Account
+                  יצירת חשבון
                 </Button>
               </Link>
             </div>

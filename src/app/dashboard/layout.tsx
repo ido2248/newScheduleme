@@ -20,20 +20,20 @@ export default async function DashboardLayout({
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-6">
             <Link href="/dashboard" className="text-lg font-bold">
-              ScheduleMe
+              תזמון שיעורים
             </Link>
             <nav className="flex gap-4 text-sm">
               <Link
                 href="/dashboard"
                 className="text-muted hover:text-foreground"
               >
-                My Calendars
+                הלוחות שלי
               </Link>
               <Link
                 href="/dashboard/calendars/new"
                 className="text-muted hover:text-foreground"
               >
-                Create Calendar
+                צור לוח
               </Link>
             </nav>
           </div>
@@ -46,7 +46,7 @@ export default async function DashboardLayout({
               }}
             >
               <Button variant="ghost" size="sm" type="submit">
-                Sign Out
+                התנתקות
               </Button>
             </form>
           </div>
