@@ -24,13 +24,13 @@ export default function SlotBadge({
 
   return (
     <div
-      className={`rounded px-1.5 py-1 text-xs ${
+      className={`rounded-lg px-2 py-1.5 text-xs ${
         isFull
-          ? "bg-red-50 text-red-700"
+          ? "bg-red-50 text-red-700 border border-red-200"
           : isEmpty
-            ? "bg-green-50 text-green-700"
-            : "bg-amber-50 text-amber-700"
-      } ${isBookable && !isFull ? "cursor-pointer hover:ring-1 hover:ring-primary" : ""}`}
+            ? "bg-green-50 text-green-700 border border-green-200"
+            : "bg-amber-50 text-amber-700 border border-amber-200"
+      } ${isBookable && !isFull ? "cursor-pointer hover:ring-2 hover:ring-primary hover:ring-offset-1 transition-all" : ""}`}
       onClick={isBookable && !isFull ? onClick : undefined}
     >
       <div className="font-medium">

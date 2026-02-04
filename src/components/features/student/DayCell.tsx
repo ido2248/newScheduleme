@@ -49,7 +49,7 @@ export default function DayCell({
       <div
         className={`mb-1 text-right text-xs font-medium ${
           isToday
-            ? "flex h-5 w-5 items-center justify-center rounded-full bg-primary text-white ml-auto"
+            ? "flex h-6 w-6 items-center justify-center rounded-full bg-primary text-white ml-auto"
             : "text-muted"
         }`}
       >

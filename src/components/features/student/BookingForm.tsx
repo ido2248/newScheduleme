@@ -77,7 +77,7 @@ export default function BookingForm({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="הזמן שיעור">
-      <div className="mb-4 rounded-lg bg-gray-50 p-3 text-sm">
+      <div className="mb-4 rounded-xl bg-primary-light p-4 text-sm border border-primary/20">
         <p>
           <span className="text-muted">מורה:</span>{" "}
           <span className="font-medium">{teacherName || calendarName}</span>

@@ -166,7 +166,7 @@ export default function MonthlyCalendarView({
         <Button variant="ghost" size="sm" onClick={prevMonth}>
           &larr;
         </Button>
-        <h2 className="text-lg font-semibold">
+        <h2 className="text-lg font-semibold text-primary">
           {MONTH_NAMES[currentMonth]} {currentYear}
         </h2>
         <Button variant="ghost" size="sm" onClick={nextMonth}>
@@ -181,11 +181,11 @@ export default function MonthlyCalendarView({
       )}
 
       {/* Day headers */}
-      <div className="grid grid-cols-7 border-b border-border">
+      <div className="grid grid-cols-7 border-b border-border bg-gray-50 rounded-t-lg">
         {DAY_NAMES_SHORT.map((day, index) => (
           <div
             key={index}
-            className="border-x border-border p-2 text-center text-xs font-medium text-muted"
+            className="border-x border-border p-3 text-center text-xs font-semibold text-muted"
           >
             {day}
           </div>

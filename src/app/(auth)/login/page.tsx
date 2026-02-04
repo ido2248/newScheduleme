@@ -4,18 +4,18 @@ import LoginForm from "@/components/features/auth/LoginForm";
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md">
         {/* Toggle Buttons */}
-        <div className="mb-6 flex rounded-lg bg-gray-100 p-1">
+        <div className="mb-6 flex rounded-xl bg-gray-100 p-1">
           <Link
             href="/"
-            className="flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors text-muted hover:text-foreground text-center"
+            className="flex-1 rounded-lg px-4 py-2 text-sm font-medium transition-colors text-muted hover:text-foreground text-center"
           >
             תלמיד
           </Link>
           <button
-            className="flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors bg-white text-foreground shadow-sm"
+            className="flex-1 rounded-lg px-4 py-2 text-sm font-medium transition-colors bg-primary text-white shadow-sm"
           >
             מורה
           </button>

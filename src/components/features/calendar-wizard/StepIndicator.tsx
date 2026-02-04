@@ -20,11 +20,11 @@ export default function StepIndicator({
           <div key={step} className="flex items-center gap-2">
             <div className="flex flex-col items-center">
               <div
-                className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${
+                className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${
                   isActive
-                    ? "bg-primary text-white"
+                    ? "bg-primary text-white shadow-md"
                     : isCompleted
-                      ? "bg-primary/20 text-primary"
+                      ? "bg-primary-light text-primary border-2 border-primary"
                       : "bg-gray-100 text-muted"
                 }`}
               >
