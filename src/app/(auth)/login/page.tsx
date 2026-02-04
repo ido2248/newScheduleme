@@ -4,7 +4,7 @@ import LoginForm from "@/components/features/auth/LoginForm";
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-screen items-start justify-center bg-background px-4 pt-60">
       <Card className="w-full max-w-md">
         {/* Toggle Buttons */}
         <div className="mb-6 flex rounded-xl bg-gray-100 p-1">
