@@ -18,15 +18,14 @@ export default function CodeInput() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
       <Input
         value={code}
         onChange={(e) => setCode(e.target.value)}
         placeholder="הזן קוד לוח"
-        className="flex-1"
         required
       />
-      <Button type="submit">צפה בלוח</Button>
+      <Button type="submit" className="w-full">צפה בלוח</Button>
     </form>
   );
 }

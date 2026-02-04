@@ -2,14 +2,25 @@ import Link from "next/link";
 import Card from "@/components/ui/Card";
 import LoginForm from "@/components/features/auth/LoginForm";
 
-export default function LoginPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ registered?: string }>;
-}) {
+export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
       <Card className="w-full max-w-md">
+        {/* Toggle Buttons */}
+        <div className="mb-6 flex rounded-lg bg-gray-100 p-1">
+          <Link
+            href="/"
+            className="flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors text-muted hover:text-foreground text-center"
+          >
+            תלמיד
+          </Link>
+          <button
+            className="flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors bg-white text-foreground shadow-sm"
+          >
+            מורה
+          </button>
+        </div>
+
         <div className="mb-6 text-center">
           <h1 className="text-2xl font-bold">התחברות מורה</h1>
           <p className="mt-1 text-sm text-muted">
@@ -21,11 +32,6 @@ export default function LoginPage({
           אין לך חשבון?{" "}
           <Link href="/register" className="font-medium text-primary hover:underline">
             צור חשבון
-          </Link>
-        </p>
-        <p className="mt-2 text-center text-sm text-muted">
-          <Link href="/" className="font-medium text-primary hover:underline">
-            חזרה לדף הבית
           </Link>
         </p>
       </Card>
