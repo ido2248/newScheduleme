@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { ReactNode } from "react";
 
 function CalendarIcon() {
   return (
     <svg
-      className="h-8 w-8"
+      className="h-7 w-7"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -18,7 +19,63 @@ function CalendarIcon() {
   );
 }
 
-export default function Header() {
+interface HeaderProps {
+  variant?: "simple" | "dashboard";
+  userName?: string | null;
+  logoutForm?: ReactNode;
+}
+
+export default function Header({ variant = "simple", userName, logoutForm }: HeaderProps) {
+  // Dashboard variant: 3-column layout
+  if (variant === "dashboard") {
+    return (
+      <header className="sticky top-0 z-50 bg-gradient-to-r from-[#9333ea] to-[#c084fc] text-white">
+        <div className="mx-auto max-w-6xl px-4 py-4">
+          <div className="flex items-center justify-between">
+            
+            {/* RIGHT: Logo/title (in RTL this appears on right) */}
+            <Link href="/" className="flex items-center gap-2">
+              <div className="flex flex-col items-end">
+                <div className="flex items-center gap-2">
+                  <span className="text-3xl font-bold">ScheduleMe</span>
+                  <CalendarIcon />
+                </div>
+                <p className="text-xs text-white/70">
+                  האפליקציה החכמה לשיעורים עם המורים
+                </p>
+              </div>
+            </Link>
+
+            {/* CENTER: Navigation */}
+            <nav className="flex items-center gap-6">
+              <Link
+                href="/dashboard"
+                className="text-sm font-medium text-white/80 hover:text-white transition-colors"
+              >
+                הלוחות שלי
+              </Link>
+              <Link
+                href="/dashboard/calendars/new"
+                className="text-sm font-medium text-white/80 hover:text-white transition-colors"
+              >
+                צור לוח
+              </Link>
+            </nav>
+
+            {/* LEFT: User info + logout (in RTL this appears on left) */}
+            <div className="flex items-center gap-3">
+              {userName && (
+                <span className="text-sm text-white/80">{userName}</span>
+              )}
+              {logoutForm}
+            </div>
+          </div>
+        </div>
+      </header>
+    );
+  }
+
+  // Simple variant: centered layout (default)
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-[#9333ea] to-[#c084fc] text-white">
       <div className="mx-auto max-w-6xl px-4 py-6">

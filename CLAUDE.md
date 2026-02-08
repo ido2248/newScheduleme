@@ -78,35 +78,61 @@ Checks 5-7 run inside a Prisma `$transaction` for race-condition safety.
 
 **ALL pages in the application MUST include the Header component at the top for consistent branding.**
 
-### Usage
+### Variants
+
+The Header component supports two variants:
+
+#### Simple Variant (default)
+Centered layout with logo and subtitle. Use for public pages.
 
 ```tsx
 import Header from "@/components/ui/Header";
 
-export default function MyPage() {
-  return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main className="mx-auto max-w-6xl px-4 py-8">
-        {/* Page content */}
-      </main>
-    </div>
-  );
+// For: home, login, register, student calendar pages
+<Header />
+```
+
+#### Dashboard Variant
+3-column layout with navigation. Use for authenticated dashboard pages.
+
+```tsx
+import Header from "@/components/ui/Header";
+
+// For: dashboard pages (already configured in dashboard/layout.tsx)
+<Header
+  variant="dashboard"
+  userName={session.user.name}
+  logoutForm={<form>...</form>}
+/>
+```
+
+Layout:
+- **RIGHT**: Logo + CalendarIcon + subtitle
+- **CENTER**: Navigation links (הלוחות שלי, צור לוח)
+- **LEFT**: User name + logout button
+
+### Props
+
+```tsx
+interface HeaderProps {
+  variant?: "simple" | "dashboard";  // default: "simple"
+  userName?: string | null;          // for dashboard variant
+  logoutForm?: ReactNode;            // for dashboard variant
 }
 ```
 
 ### Features
 - Purple gradient background with calendar icon
-- "ScheduleMe" branding with Hebrew subtitle: "האפליקציה החכמה לשיעורים עם המורים"
+- "ScheduleMe" branding with Hebrew subtitle
 - Sticky positioning (stays at top on scroll)
 - Links to home page when clicked
-- RTL-aware layout (calendar icon to right of title)
+- RTL-aware layout
 
 ### Important
 - The Header component is **required** on ALL pages
-- For dashboard pages, the layout already includes the Header
+- For dashboard pages, the layout already includes the Header with `variant="dashboard"`
+- For public pages, use the simple variant (default)
 - Do not create custom headers - always use the Header component
-- The Header should be the first element inside the page container
 
 ## Hebrew Localization
 

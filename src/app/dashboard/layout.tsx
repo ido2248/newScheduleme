@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { auth, signOut } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Header from "@/components/ui/Header";
@@ -15,43 +14,31 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
+  const logoutForm = (
+    <form
+      action={async () => {
+        "use server";
+        await signOut({ redirectTo: "/" });
+      }}
+    >
+      <Button
+        variant="ghost"
+        size="sm"
+        type="submit"
+        className="text-white hover:bg-white/10"
+      >
+        התנתקות
+      </Button>
+    </form>
+  );
+
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-
-      {/* Dashboard Navigation Bar */}
-      <nav className="border-b border-border bg-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-4">
-            <Link
-              href="/dashboard"
-              className="text-sm font-medium text-muted hover:text-foreground"
-            >
-              הלוחות שלי
-            </Link>
-            <Link
-              href="/dashboard/calendars/new"
-              className="text-sm font-medium text-muted hover:text-foreground"
-            >
-              צור לוח
-            </Link>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-muted">{session.user.name}</span>
-            <form
-              action={async () => {
-                "use server";
-                await signOut({ redirectTo: "/" });
-              }}
-            >
-              <Button variant="ghost" size="sm" type="submit">
-                התנתקות
-              </Button>
-            </form>
-          </div>
-        </div>
-      </nav>
-
+      <Header
+        variant="dashboard"
+        userName={session.user.name}
+        logoutForm={logoutForm}
+      />
       <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
     </div>
   );
