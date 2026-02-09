@@ -24,6 +24,14 @@ export default async function StudentCalendarPage({
           id: true,
           dayOfWeek: true,
           periodNumber: true,
+          validFrom: true,
+          validUntil: true,
+          exceptions: {
+            select: {
+              startDate: true,
+              endDate: true,
+            },
+          },
         },
         orderBy: [{ dayOfWeek: "asc" }, { periodNumber: "asc" }],
       },
@@ -41,7 +49,17 @@ export default async function StudentCalendarPage({
     teacherName: calendar.teacher.name,
     allowedGrades: calendar.allowedGrades,
     maxStudentsPerSlot: calendar.maxStudentsPerSlot,
-    availabilitySlots: calendar.availabilitySlots,
+    availabilitySlots: calendar.availabilitySlots.map((slot) => ({
+      id: slot.id,
+      dayOfWeek: slot.dayOfWeek,
+      periodNumber: slot.periodNumber,
+      validFrom: slot.validFrom?.toISOString() ?? null,
+      validUntil: slot.validUntil?.toISOString() ?? null,
+      exceptions: slot.exceptions.map((ex) => ({
+        startDate: ex.startDate.toISOString(),
+        endDate: ex.endDate.toISOString(),
+      })),
+    })),
   };
 
   return (

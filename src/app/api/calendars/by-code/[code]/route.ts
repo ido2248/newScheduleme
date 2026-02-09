@@ -18,6 +18,14 @@ export async function GET(
           id: true,
           dayOfWeek: true,
           periodNumber: true,
+          validFrom: true,
+          validUntil: true,
+          exceptions: {
+            select: {
+              startDate: true,
+              endDate: true,
+            },
+          },
         },
         orderBy: [{ dayOfWeek: "asc" }, { periodNumber: "asc" }],
       },

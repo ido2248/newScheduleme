@@ -69,6 +69,35 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // 1b. Verify slot is valid for the requested date (validFrom/validUntil)
+  if (slot.validFrom && bookingDate < slot.validFrom) {
+    return NextResponse.json(
+      { error: "משבצת זו אינה זמינה בתאריך זה." },
+      { status: 400 }
+    );
+  }
+  if (slot.validUntil && bookingDate > slot.validUntil) {
+    return NextResponse.json(
+      { error: "משבצת זו אינה זמינה בתאריך זה." },
+      { status: 400 }
+    );
+  }
+
+  // 1c. Check for SlotException hiding this slot on the requested date
+  const exception = await prisma.slotException.findFirst({
+    where: {
+      slotId: availabilitySlotId,
+      startDate: { lte: bookingDate },
+      endDate: { gte: bookingDate },
+    },
+  });
+  if (exception) {
+    return NextResponse.json(
+      { error: "משבצת זו אינה זמינה בתאריך זה." },
+      { status: 400 }
+    );
+  }
+
   // 2. Verify the requested date falls on the correct day of week
   if (bookingDate.getUTCDay() !== slot.dayOfWeek) {
     return NextResponse.json(

@@ -27,6 +27,16 @@ export const calendarCreateSchema = z.object({
     .min(1, "Add at least one availability slot"),
 });
 
+export const availabilityEditSchema = z.object({
+  scope: z.enum(["permanent", "week", "month"]),
+  slots: z.array(
+    z.object({
+      dayOfWeek: z.number().int().min(0).max(6),
+      periodNumber: z.number().int().min(1).max(12),
+    })
+  ),
+});
+
 export const bookingSchema = z.object({
   calendarCode: z.string(),
   availabilitySlotId: z.string(),

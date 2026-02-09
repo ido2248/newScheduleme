@@ -77,15 +77,29 @@ model Calendar {
 }
 
 model AvailabilitySlot {
-  id           String    @id @default(cuid())
+  id           String           @id @default(cuid())
   calendarId   String
-  dayOfWeek    Int       // 0=Sunday, 1=Monday, ..., 6=Saturday
-  periodNumber Int       // 1-12 (school period/hour number)
-  calendar     Calendar  @relation(fields: [calendarId], references: [id], onDelete: Cascade)
+  dayOfWeek    Int              // 0=Sunday, 1=Monday, ..., 6=Saturday
+  periodNumber Int              // 1-12 (school period/hour number)
+  validFrom    DateTime?        @db.Date // null = permanent (always valid)
+  validUntil   DateTime?        @db.Date // null = permanent (always valid)
+  calendar     Calendar         @relation(fields: [calendarId], references: [id], onDelete: Cascade)
   bookings     Booking[]
+  exceptions   SlotException[]
 
-  @@unique([calendarId, dayOfWeek, periodNumber])
   @@index([calendarId])
+  @@index([calendarId, dayOfWeek, periodNumber])
+}
+
+model SlotException {
+  id        String           @id @default(cuid())
+  slotId    String
+  startDate DateTime         @db.Date
+  endDate   DateTime         @db.Date
+  slot      AvailabilitySlot @relation(fields: [slotId], references: [id], onDelete: Cascade)
+
+  @@index([slotId])
+  @@index([slotId, startDate, endDate])
 }
 
 model Booking {

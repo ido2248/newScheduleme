@@ -96,3 +96,23 @@ export function getFirstDayOfMonth(year: number, month: number): number {
 export function formatDate(date: Date): string {
   return date.toISOString().split("T")[0];
 }
+
+/** Returns {start, end} for the Sun–Sat week containing the given date (UTC) */
+export function getWeekRange(referenceDate?: Date): { start: Date; end: Date } {
+  const d = referenceDate ? new Date(referenceDate) : new Date();
+  d.setUTCHours(0, 0, 0, 0);
+  const dayOfWeek = d.getUTCDay();
+  const start = new Date(d);
+  start.setUTCDate(d.getUTCDate() - dayOfWeek);
+  const end = new Date(start);
+  end.setUTCDate(start.getUTCDate() + 6);
+  return { start, end };
+}
+
+/** Returns {start, end} for the month containing the given date (UTC) */
+export function getMonthRange(referenceDate?: Date): { start: Date; end: Date } {
+  const d = referenceDate ? new Date(referenceDate) : new Date();
+  const start = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1));
+  const end = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 0));
+  return { start, end };
+}

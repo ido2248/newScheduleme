@@ -8,6 +8,7 @@ import Button from "@/components/ui/Button";
 import { DAY_NAMES, formatGrade, formatHour } from "@/lib/utils";
 import DeleteCalendarButton from "@/components/features/dashboard/DeleteCalendarButton";
 import DeleteBookingButton from "@/components/features/dashboard/DeleteBookingButton";
+import EditAvailabilityButton from "@/components/features/dashboard/EditAvailabilityButton";
 
 export default async function CalendarDetailPage({
   params,
@@ -37,13 +38,18 @@ export default async function CalendarDetailPage({
     notFound();
   }
 
-  const slotsByDay = calendar.availabilitySlots.reduce(
+  // Show only permanent slots in the weekly overview
+  const permanentSlots = calendar.availabilitySlots.filter(
+    (slot) => slot.validFrom === null && slot.validUntil === null
+  );
+
+  const slotsByDay = permanentSlots.reduce(
     (acc, slot) => {
       if (!acc[slot.dayOfWeek]) acc[slot.dayOfWeek] = [];
       acc[slot.dayOfWeek].push(slot);
       return acc;
     },
-    {} as Record<number, typeof calendar.availabilitySlots>
+    {} as Record<number, typeof permanentSlots>
   );
 
   return (
@@ -62,6 +68,13 @@ export default async function CalendarDetailPage({
           </p>
         </div>
         <div className="flex gap-2">
+          <EditAvailabilityButton
+            calendarId={calendar.id}
+            currentSlots={permanentSlots.map((s) => ({
+              dayOfWeek: s.dayOfWeek,
+              periodNumber: s.periodNumber,
+            }))}
+          />
           <DeleteCalendarButton calendarId={calendar.id} />
         </div>
       </div>

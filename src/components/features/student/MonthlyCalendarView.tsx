@@ -6,10 +6,18 @@ import DayCell from "./DayCell";
 import BookingForm from "./BookingForm";
 import { getDaysInMonth, getFirstDayOfMonth, DAY_NAMES, DAY_NAMES_SHORT, MONTH_NAMES } from "@/lib/utils";
 
+interface SlotException {
+  startDate: string;
+  endDate: string;
+}
+
 interface AvailabilitySlot {
   id: string;
   dayOfWeek: number;
   periodNumber: number;
+  validFrom?: string | null;
+  validUntil?: string | null;
+  exceptions?: SlotException[];
 }
 
 interface Booking {
@@ -141,12 +149,51 @@ export default function MonthlyCalendarView({
     });
   }
 
-  // Group slots by dayOfWeek for quick lookup
-  const slotsByDay: Record<number, AvailabilitySlot[]> = {};
-  calendar.availabilitySlots.forEach((slot) => {
-    if (!slotsByDay[slot.dayOfWeek]) slotsByDay[slot.dayOfWeek] = [];
-    slotsByDay[slot.dayOfWeek].push(slot);
-  });
+  // Get effective slots for a specific date, checking validFrom/validUntil and exceptions
+  function getEffectiveSlotsForDate(date: Date): AvailabilitySlot[] {
+    const dayOfWeek = date.getUTCDay();
+    const dateStr = date.toISOString().split("T")[0];
+
+    const seen = new Set<string>();
+    return calendar.availabilitySlots.filter((slot) => {
+      if (slot.dayOfWeek !== dayOfWeek) return false;
+
+      // Check validFrom/validUntil
+      if (slot.validFrom) {
+        const from = typeof slot.validFrom === "string"
+          ? slot.validFrom.split("T")[0]
+          : new Date(slot.validFrom).toISOString().split("T")[0];
+        if (dateStr < from) return false;
+      }
+      if (slot.validUntil) {
+        const until = typeof slot.validUntil === "string"
+          ? slot.validUntil.split("T")[0]
+          : new Date(slot.validUntil).toISOString().split("T")[0];
+        if (dateStr > until) return false;
+      }
+
+      // Check exceptions
+      if (slot.exceptions && slot.exceptions.length > 0) {
+        const hasException = slot.exceptions.some((ex) => {
+          const exStart = typeof ex.startDate === "string"
+            ? ex.startDate.split("T")[0]
+            : new Date(ex.startDate).toISOString().split("T")[0];
+          const exEnd = typeof ex.endDate === "string"
+            ? ex.endDate.split("T")[0]
+            : new Date(ex.endDate).toISOString().split("T")[0];
+          return dateStr >= exStart && dateStr <= exEnd;
+        });
+        if (hasException) return false;
+      }
+
+      // Deduplicate by dayOfWeek+periodNumber (prefer first match)
+      const key = `${slot.dayOfWeek}-${slot.periodNumber}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+
+      return true;
+    });
+  }
 
   const isToday = (date: Date) =>
     date.getUTCFullYear() === today.getFullYear() &&
@@ -195,8 +242,7 @@ export default function MonthlyCalendarView({
       {/* Calendar grid */}
       <div className="grid grid-cols-7">
         {calendarDays.map(({ date, isCurrentMonth }, index) => {
-          const dayOfWeek = date.getUTCDay();
-          const slots = slotsByDay[dayOfWeek] || [];
+          const slots = isCurrentMonth ? getEffectiveSlotsForDate(date) : [];
 
           return (
             <DayCell
@@ -204,7 +250,7 @@ export default function MonthlyCalendarView({
               date={date}
               isCurrentMonth={isCurrentMonth}
               isToday={isToday(date)}
-              slots={isCurrentMonth ? slots : []}
+              slots={slots}
               bookings={bookings}
               maxStudents={calendar.maxStudentsPerSlot}
               isBookable={isCurrentMonth && isBookable(date)}
