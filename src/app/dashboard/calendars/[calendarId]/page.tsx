@@ -8,7 +8,7 @@ import Button from "@/components/ui/Button";
 import { DAY_NAMES, formatGrade, formatHour } from "@/lib/utils";
 import DeleteCalendarButton from "@/components/features/dashboard/DeleteCalendarButton";
 import DeleteBookingButton from "@/components/features/dashboard/DeleteBookingButton";
-import EditAvailabilityButton from "@/components/features/dashboard/EditAvailabilityButton";
+
 
 export default async function CalendarDetailPage({
   params,
@@ -68,13 +68,6 @@ export default async function CalendarDetailPage({
           </p>
         </div>
         <div className="flex gap-2">
-          <EditAvailabilityButton
-            calendarId={calendar.id}
-            currentSlots={permanentSlots.map((s) => ({
-              dayOfWeek: s.dayOfWeek,
-              periodNumber: s.periodNumber,
-            }))}
-          />
           <DeleteCalendarButton calendarId={calendar.id} />
         </div>
       </div>

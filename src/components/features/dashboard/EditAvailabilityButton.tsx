@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import Modal from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
-import ScopeDialog, { type EditScope } from "./ScopeDialog";
 import { DAY_NAMES, MAX_PERIODS, formatHour } from "@/lib/utils";
+
+type EditScope = "permanent" | "week" | "month";
 
 interface Slot {
   dayOfWeek: number;
@@ -24,9 +25,9 @@ export default function EditAvailabilityButton({
 }: EditAvailabilityButtonProps) {
   const router = useRouter();
   const [isEditorOpen, setIsEditorOpen] = useState(false);
-  const [isScopeDialogOpen, setIsScopeDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [scope, setScope] = useState<EditScope>("permanent");
 
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [hoursByDay, setHoursByDay] = useState<Record<number, number[]>>({});
@@ -45,6 +46,7 @@ export default function EditAvailabilityButton({
     }
     setSelectedDays(days);
     setHoursByDay(hbd);
+    setScope("permanent");
     setError("");
     setIsEditorOpen(true);
   }
@@ -87,15 +89,12 @@ export default function EditAvailabilityButton({
     return false;
   }
 
-  function handleSaveClick() {
+  async function handleSave() {
     if (!hasChanges()) {
       setIsEditorOpen(false);
       return;
     }
-    setIsScopeDialogOpen(true);
-  }
 
-  async function handleScopeSelect(scope: EditScope) {
     setLoading(true);
     setError("");
 
@@ -116,16 +115,13 @@ export default function EditAvailabilityButton({
       if (!res.ok) {
         const data = await res.json();
         setError(data.error || "שמירה נכשלה.");
-        setIsScopeDialogOpen(false);
         return;
       }
 
-      setIsScopeDialogOpen(false);
       setIsEditorOpen(false);
       router.refresh();
     } catch {
       setError("משהו השתבש. נסה שוב.");
-      setIsScopeDialogOpen(false);
     } finally {
       setLoading(false);
     }
@@ -191,6 +187,46 @@ export default function EditAvailabilityButton({
           </div>
         )}
 
+        {/* Scope selection */}
+        <div className="mt-4">
+          <h4 className="mb-2 text-sm font-medium">טווח השינויים</h4>
+          <div className="space-y-2">
+            <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-border p-2 has-checked:border-primary has-checked:bg-primary/5">
+              <input
+                type="radio"
+                name="scope"
+                value="permanent"
+                checked={scope === "permanent"}
+                onChange={() => setScope("permanent")}
+                className="h-4 w-4 text-primary focus:ring-primary/20"
+              />
+              <span className="text-sm">קבוע (לכל השבועות)</span>
+            </label>
+            <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-border p-2 has-checked:border-primary has-checked:bg-primary/5">
+              <input
+                type="radio"
+                name="scope"
+                value="week"
+                checked={scope === "week"}
+                onChange={() => setScope("week")}
+                className="h-4 w-4 text-primary focus:ring-primary/20"
+              />
+              <span className="text-sm">השבוע הנוכחי בלבד</span>
+            </label>
+            <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-border p-2 has-checked:border-primary has-checked:bg-primary/5">
+              <input
+                type="radio"
+                name="scope"
+                value="month"
+                checked={scope === "month"}
+                onChange={() => setScope("month")}
+                className="h-4 w-4 text-primary focus:ring-primary/20"
+              />
+              <span className="text-sm">החודש הנוכחי בלבד</span>
+            </label>
+          </div>
+        </div>
+
         <div className="mt-6 flex justify-end gap-2">
           <Button
             variant="secondary"
@@ -199,18 +235,11 @@ export default function EditAvailabilityButton({
           >
             ביטול
           </Button>
-          <Button size="sm" onClick={handleSaveClick}>
-            שמור שינויים
+          <Button size="sm" onClick={handleSave} disabled={loading}>
+            {loading ? "שומר..." : "שמור שינויים"}
           </Button>
         </div>
       </Modal>
-
-      <ScopeDialog
-        isOpen={isScopeDialogOpen}
-        onClose={() => setIsScopeDialogOpen(false)}
-        onSelect={handleScopeSelect}
-        loading={loading}
-      />
     </>
   );
 }

@@ -29,7 +29,7 @@ export default function Header({ variant = "simple", userName, logoutForm }: Hea
   // Dashboard variant: 3-column layout
   if (variant === "dashboard") {
     return (
-      <header className="sticky top-0 z-50 bg-gradient-to-r from-[#9333ea] to-[#c084fc] text-white">
+      <header className="sticky top-0 z-50 bg-linear-to-r from-primary to-primary-border text-white">
         <div className="mx-auto max-w-6xl px-4 py-4">
           <div className="flex items-center justify-between">
             
@@ -77,7 +77,7 @@ export default function Header({ variant = "simple", userName, logoutForm }: Hea
 
   // Simple variant: centered layout (default)
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-r from-[#9333ea] to-[#c084fc] text-white">
+    <header className="sticky top-0 z-50 bg-linear-to-r from-primary to-primary-border text-white">
       <div className="mx-auto max-w-6xl px-4 py-6">
         <Link href="/" className="block">
           <div className="flex flex-col items-center justify-center text-center">

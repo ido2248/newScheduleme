@@ -6,6 +6,7 @@ import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import { DAY_NAMES, formatGrade } from "@/lib/utils";
+import EditAvailabilityButton from "./EditAvailabilityButton";
 
 interface CalendarCardProps {
   calendar: {
@@ -71,6 +72,10 @@ export default function CalendarCard({ calendar }: CalendarCardProps) {
       </p>
 
       <div className="mt-auto flex gap-2 pt-2">
+        <EditAvailabilityButton
+          calendarId={calendar.id}
+          currentSlots={calendar.availabilitySlots}
+        />
         <Link href={`/dashboard/calendars/${calendar.id}`} className="flex-1">
           <Button variant="secondary" size="sm" className="w-full">
             צפה בפרטים
