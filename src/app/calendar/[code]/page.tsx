@@ -1,8 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import Header from "@/components/ui/Header";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
+import Button from "@/components/ui/Button";
 import MonthlyCalendarView from "@/components/features/student/MonthlyCalendarView";
 import { formatGrade } from "@/lib/utils";
 
@@ -68,6 +70,13 @@ export default async function StudentCalendarPage({
 
       <main className="mx-auto max-w-6xl px-4 py-8">
         <div className="mb-6">
+          <div className="mb-3 flex justify-end">
+            <Link href="/">
+              <Button variant="secondary" size="sm">
+                 חזרה לדף הבית &larr;
+              </Button>
+            </Link>
+          </div>
           <h1 className="text-2xl font-bold">{calendar.name}</h1>
           <p className="text-sm text-muted">
             מורה: {calendar.teacher.name || "לא ידוע"}

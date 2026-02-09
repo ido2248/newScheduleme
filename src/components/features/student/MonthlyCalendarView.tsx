@@ -211,13 +211,13 @@ export default function MonthlyCalendarView({
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <Button variant="ghost" size="sm" onClick={prevMonth}>
-          &larr;
+          &rarr;
         </Button>
         <h2 className="text-lg font-semibold text-primary">
           {MONTH_NAMES[currentMonth]} {currentYear}
         </h2>
         <Button variant="ghost" size="sm" onClick={nextMonth}>
-          &rarr;
+          &larr;
         </Button>
       </div>
 
