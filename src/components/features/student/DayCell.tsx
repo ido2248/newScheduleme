@@ -42,21 +42,21 @@ export default function DayCell({
 
   return (
     <div
-      className={`min-h-[100px] border border-border p-1 ${
+      className={`min-h-[80px] sm:min-h-[100px] border border-border p-1 sm:p-2 ${
         !isCurrentMonth ? "bg-gray-50 opacity-50" : "bg-white"
       }`}
     >
       <div
         className={`mb-1 text-right text-xs font-medium ${
           isToday
-            ? "flex h-6 w-6 items-center justify-center rounded-full bg-primary text-white ml-auto"
+            ? "flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full bg-primary text-white text-[10px] sm:text-xs ml-auto"
             : "text-muted"
         }`}
       >
         {date.getDate()}
       </div>
 
-      <div className="space-y-1">
+      <div className="space-y-0.5 sm:space-y-1">
         {slots.map((slot) => {
           const slotBookings = dayBookings
             .filter((b) => b.availabilitySlotId === slot.id)

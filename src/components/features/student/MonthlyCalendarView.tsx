@@ -2,7 +2,10 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Button from "@/components/ui/Button";
+import Modal from "@/components/ui/Modal";
 import DayCell from "./DayCell";
+import DayCellMobile from "./DayCellMobile";
+import SlotBadge from "./SlotBadge";
 import BookingForm from "./BookingForm";
 import { getDaysInMonth, getFirstDayOfMonth, DAY_NAMES, DAY_NAMES_SHORT, MONTH_NAMES } from "@/lib/utils";
 
@@ -51,12 +54,26 @@ export default function MonthlyCalendarView({
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const [bookingModal, setBookingModal] = useState<{
     isOpen: boolean;
     slot: AvailabilitySlot | null;
     date: Date | null;
   }>({ isOpen: false, slot: null, date: null });
+
+  const [selectedDayForMobile, setSelectedDayForMobile] = useState<{
+    date: Date;
+    slots: AvailabilitySlot[];
+  } | null>(null);
+
+  // Detect mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const fetchBookings = useCallback(async () => {
     setLoading(true);
@@ -108,6 +125,11 @@ export default function MonthlyCalendarView({
     }
 
     setBookingModal({ isOpen: true, slot, date });
+  }
+
+  function handleDayClickMobile(date: Date, slots: AvailabilitySlot[]) {
+    if (slots.length === 0) return;
+    setSelectedDayForMobile({ date, slots });
   }
 
   // Build the calendar grid
@@ -209,11 +231,11 @@ export default function MonthlyCalendarView({
   return (
     <div>
       {/* Header */}
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-3 sm:mb-4 flex items-center justify-between">
         <Button variant="ghost" size="sm" onClick={prevMonth}>
           &rarr;
         </Button>
-        <h2 className="text-lg font-semibold text-primary">
+        <h2 className="text-base sm:text-lg font-semibold text-primary">
           {MONTH_NAMES[currentMonth]} {currentYear}
         </h2>
         <Button variant="ghost" size="sm" onClick={nextMonth}>
@@ -222,7 +244,7 @@ export default function MonthlyCalendarView({
       </div>
 
       {loading && (
-        <div className="mb-2 text-center text-sm text-muted">
+        <div className="mb-2 text-center text-xs sm:text-sm text-muted">
           טוען הזמנות...
         </div>
       )}
@@ -232,7 +254,7 @@ export default function MonthlyCalendarView({
         {DAY_NAMES_SHORT.map((day, index) => (
           <div
             key={index}
-            className="border-x border-border p-3 text-center text-xs font-semibold text-muted"
+            className="border-x border-border p-1.5 sm:p-3 text-center text-[10px] sm:text-xs font-semibold text-muted"
           >
             {day}
           </div>
@@ -243,6 +265,20 @@ export default function MonthlyCalendarView({
       <div className="grid grid-cols-7">
         {calendarDays.map(({ date, isCurrentMonth }, index) => {
           const slots = isCurrentMonth ? getEffectiveSlotsForDate(date) : [];
+
+          if (isMobile) {
+            return (
+              <DayCellMobile
+                key={index}
+                date={date}
+                isCurrentMonth={isCurrentMonth}
+                isToday={isToday(date)}
+                slotsCount={slots.length}
+                hasBookableSlots={isCurrentMonth && isBookable(date) && slots.length > 0}
+                onClick={() => handleDayClickMobile(date, slots)}
+              />
+            );
+          }
 
           return (
             <DayCell
@@ -261,7 +297,7 @@ export default function MonthlyCalendarView({
       </div>
 
       {/* Legend */}
-      <div className="mt-4 flex flex-wrap gap-4 text-xs text-muted">
+      <div className="mt-3 sm:mt-4 flex flex-wrap gap-3 sm:gap-4 text-[10px] sm:text-xs text-muted">
         <div className="flex items-center gap-1">
           <div className="h-3 w-3 rounded bg-green-50 border border-green-200" />
           <span>פנוי</span>
@@ -275,6 +311,55 @@ export default function MonthlyCalendarView({
           <span>מלא</span>
         </div>
       </div>
+
+      {/* Mobile: hint text */}
+      {isMobile && (
+        <p className="mt-2 text-center text-[10px] text-muted">
+          לחץ על יום עם נקודה ירוקה כדי לראות שעות פנויות
+        </p>
+      )}
+
+      {/* Mobile day detail modal */}
+      {selectedDayForMobile && (
+        <Modal
+          isOpen={true}
+          onClose={() => setSelectedDayForMobile(null)}
+          title={`${DAY_NAMES[selectedDayForMobile.date.getUTCDay()]}, ${selectedDayForMobile.date.getUTCDate()} ${MONTH_NAMES[selectedDayForMobile.date.getUTCMonth()]}`}
+        >
+          <div className="space-y-3">
+            {selectedDayForMobile.slots.map((slot) => {
+              const dateStr = selectedDayForMobile.date.toISOString().split("T")[0];
+              const slotBookings = bookings
+                .filter(
+                  (b) =>
+                    b.date.split("T")[0] === dateStr &&
+                    b.availabilitySlotId === slot.id
+                )
+                .map((b) => ({
+                  id: b.id,
+                  studentName: b.studentName,
+                  studentGrade: b.studentGrade,
+                }));
+
+              const isFull = slotBookings.length >= calendar.maxStudentsPerSlot;
+
+              return (
+                <SlotBadge
+                  key={slot.id}
+                  periodNumber={slot.periodNumber}
+                  bookings={slotBookings}
+                  maxStudents={calendar.maxStudentsPerSlot}
+                  isBookable={isBookable(selectedDayForMobile.date) && !isFull}
+                  onClick={() => {
+                    setSelectedDayForMobile(null);
+                    handleSlotClick(slot, selectedDayForMobile.date);
+                  }}
+                />
+              );
+            })}
+          </div>
+        </Modal>
+      )}
 
       {/* Booking modal */}
       {bookingModal.slot && bookingModal.date && (

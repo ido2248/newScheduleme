@@ -32,7 +32,7 @@ export default function DeleteBookingButton({
     <button
       onClick={handleDelete}
       disabled={loading}
-      className="me-1 rounded p-0.5 text-xs text-muted hover:text-danger disabled:opacity-50"
+      className="me-1 rounded p-1.5 sm:p-0.5 text-sm sm:text-xs text-muted hover:text-danger active:text-danger disabled:opacity-50 min-h-[32px] min-w-[32px] sm:min-h-0 sm:min-w-0 flex items-center justify-center"
       title="ביטול הזמנה"
     >
       ✕

@@ -54,7 +54,7 @@ export default async function CalendarDetailPage({
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <Link
             href="/dashboard"
@@ -62,8 +62,8 @@ export default async function CalendarDetailPage({
           >
             &rarr; חזרה ללוחות
           </Link>
-          <h1 className="mt-1 text-2xl font-bold">{calendar.name}</h1>
-          <p className="text-sm text-muted">
+          <h1 className="mt-1 text-xl sm:text-2xl font-bold">{calendar.name}</h1>
+          <p className="text-xs sm:text-sm text-muted">
             קוד: <span className="font-mono font-medium">{calendar.code}</span>
           </p>
         </div>
@@ -72,7 +72,7 @@ export default async function CalendarDetailPage({
         </div>
       </div>
 
-      <div className="mb-6 flex flex-wrap gap-2">
+      <div className="mb-6 flex flex-wrap gap-1.5 sm:gap-2">
         <Badge variant={calendar.isActive ? "success" : "default"}>
           {calendar.isActive ? "פעיל" : "לא פעיל"}
         </Badge>
@@ -103,7 +103,7 @@ export default async function CalendarDetailPage({
                   {slots.map((slot) => (
                     <div
                       key={slot.id}
-                      className="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2"
+                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-lg bg-gray-50 px-3 py-2"
                     >
                       <div>
                         <span className="text-sm font-medium">
@@ -115,7 +115,7 @@ export default async function CalendarDetailPage({
                         </span>
                       </div>
                       {slot.bookings.length > 0 && (
-                        <div className="flex flex-wrap gap-1">
+                        <div className="flex flex-wrap gap-1.5 sm:gap-1">
                           {slot.bookings.map((booking) => (
                             <div
                               key={booking.id}

@@ -71,7 +71,7 @@ export default function CalendarCard({ calendar }: CalendarCardProps) {
         מקסימום {calendar.maxStudentsPerSlot} {calendar.maxStudentsPerSlot > 1 ? "תלמידים" : "תלמיד"} למשבצת
       </p>
 
-      <div className="mt-auto flex gap-2 pt-2">
+      <div className="mt-auto flex flex-col sm:flex-row gap-2 pt-2">
         <EditAvailabilityButton
           calendarId={calendar.id}
           currentSlots={calendar.availabilitySlots}

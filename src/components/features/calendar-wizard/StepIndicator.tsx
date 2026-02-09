@@ -10,7 +10,7 @@ export default function StepIndicator({
   labels,
 }: StepIndicatorProps) {
   return (
-    <div className="mb-8 flex items-center justify-center gap-2">
+    <div className="mb-6 sm:mb-8 flex items-center justify-center gap-1 sm:gap-2 px-2">
       {Array.from({ length: totalSteps }, (_, i) => {
         const step = i + 1;
         const isActive = step === currentStep;
@@ -20,7 +20,7 @@ export default function StepIndicator({
           <div key={step} className="flex items-center gap-2">
             <div className="flex flex-col items-center">
               <div
-                className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${
+                className={`flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full text-xs sm:text-sm font-semibold ${
                   isActive
                     ? "bg-primary text-white shadow-md"
                     : isCompleted
@@ -31,7 +31,7 @@ export default function StepIndicator({
                 {isCompleted ? "✓" : step}
               </div>
               <span
-                className={`mt-1 text-xs ${
+                className={`mt-1 text-[10px] sm:text-xs text-center max-w-[60px] sm:max-w-none ${
                   isActive ? "font-medium text-foreground" : "text-muted"
                 }`}
               >
@@ -40,7 +40,7 @@ export default function StepIndicator({
             </div>
             {i < totalSteps - 1 && (
               <div
-                className={`mb-4 h-0.5 w-8 ${
+                className={`mb-4 h-0.5 w-4 sm:w-8 ${
                   isCompleted ? "bg-primary/40" : "bg-gray-200"
                 }`}
               />

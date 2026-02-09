@@ -68,8 +68,8 @@ export default async function StudentCalendarPage({
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="mx-auto max-w-6xl px-4 py-8">
-        <div className="mb-6">
+      <main className="mx-auto max-w-6xl px-3 sm:px-4 py-6 sm:py-8">
+        <div className="mb-4 sm:mb-6">
           <div className="mb-3 flex justify-end">
             <Link href="/">
               <Button variant="secondary" size="sm">
@@ -77,8 +77,8 @@ export default async function StudentCalendarPage({
               </Button>
             </Link>
           </div>
-          <h1 className="text-2xl font-bold">{calendar.name}</h1>
-          <p className="text-sm text-muted">
+          <h1 className="text-xl sm:text-2xl font-bold">{calendar.name}</h1>
+          <p className="text-xs sm:text-sm text-muted">
             מורה: {calendar.teacher.name || "לא ידוע"}
           </p>
           <div className="mt-2 flex flex-wrap gap-1">
