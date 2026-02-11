@@ -42,7 +42,7 @@ export default function DayCell({
 
   return (
     <div
-      className={`min-h-[80px] sm:min-h-[100px] border border-border p-1 sm:p-2 ${
+      className={`min-h-20 sm:min-h-25 border border-border p-1 sm:p-2 ${
         !isCurrentMonth ? "bg-gray-50 opacity-50" : "bg-white"
       }`}
     >

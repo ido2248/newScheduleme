@@ -50,7 +50,7 @@ export default function Modal({ isOpen, onClose, title, children, size = "md" }:
           <h2 className="text-base sm:text-lg font-semibold">{title}</h2>
           <button
             onClick={onClose}
-            className="rounded-lg p-2 text-muted hover:bg-card-hover hover:text-foreground min-h-[44px] min-w-[44px] flex items-center justify-center"
+            className="rounded-lg p-2 text-muted hover:bg-card-hover hover:text-foreground min-h-11 min-w-11 flex items-center justify-center"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

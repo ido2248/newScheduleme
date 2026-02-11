@@ -31,7 +31,7 @@ export default function StepIndicator({
                 {isCompleted ? "✓" : step}
               </div>
               <span
-                className={`mt-1 text-[10px] sm:text-xs text-center max-w-[60px] sm:max-w-none ${
+                className={`mt-1 text-[10px] sm:text-xs text-center max-w-15 sm:max-w-none ${
                   isActive ? "font-medium text-foreground" : "text-muted"
                 }`}
               >

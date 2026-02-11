@@ -60,7 +60,7 @@ export default function Header({ variant = "simple", userName, logoutForm }: Hea
             </Link>
 
             {/* User name */}
-            <div className="max-w-[80px] truncate text-sm text-white/80">
+            <div className="max-w-20 truncate text-sm text-white/80">
               {userName}
             </div>
           </div>

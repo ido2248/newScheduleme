@@ -19,7 +19,7 @@ export default function DayCellMobile({
 
   return (
     <div
-      className={`min-h-[44px] border border-border flex flex-col items-center justify-center p-1 ${
+      className={`min-h-11 border border-border flex flex-col items-center justify-center p-1 ${
         !isCurrentMonth ? "bg-gray-50 opacity-50" : "bg-white"
       } ${hasBookableSlots ? "cursor-pointer active:bg-primary-light" : ""}`}
       onClick={hasBookableSlots ? onClick : undefined}
