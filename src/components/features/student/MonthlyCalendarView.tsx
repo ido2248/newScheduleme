@@ -74,7 +74,7 @@ export default function MonthlyCalendarView({
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
-
+  //call the api and filter using the id of the calendar and the date
   const fetchBookings = useCallback(async () => {
     setLoading(true);
     const daysInMonth = getDaysInMonth(currentYear, currentMonth);

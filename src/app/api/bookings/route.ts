@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { bookingSchema } from "@/lib/validations";
 import { formatGrade } from "@/lib/utils";
 
+//retrive the data that wos just created by a user in order to display it in the calendar for both him and the other users to see
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const calendarId = searchParams.get("calendarId");
@@ -15,7 +16,8 @@ export async function GET(request: NextRequest) {
       { status: 400 }
     );
   }
-
+  //the data is the calinder id and the date  that was created and use on in monthlycalenderview 
+  // the result return id the date of all studend that request a lesson that month
   const bookings = await prisma.booking.findMany({
     where: {
       availabilitySlot: {
